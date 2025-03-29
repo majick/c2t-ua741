@@ -3,3 +3,5 @@ asm/**
 cc65*
 /bin/**
 /c2t.h
+.DS_Store
+
