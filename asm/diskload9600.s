@@ -24,8 +24,8 @@ move:				; end of BASIC, move code to readtape addr
 move1:
 	lda	moved,x
         sta	readtape,x
-;	lda	moved+256,x
-;	sta	readtape+256,x
+	lda	moved+256,x ; uncommented due to bigger code
+	sta	readtape+256,x ; uncommented due to bigger code
 	inx
 	bne	move1
 phase1:

@@ -565,6 +565,7 @@ int main(int argc, char **argv)
 		unsigned long ones=0, zeros=0;
 		size_t cmp_len;
 		unsigned int length, move_len;
+		double inflate_times[5];
 		int i, j;
 
 		appendtone(&output,&outputlength,770,rate,4.0+tape,0,&offset);
@@ -666,6 +667,26 @@ int main(int argc, char **argv)
 
 				inflate_time += clockticks6502/1023000.0;
 			}
+			if (fast) {
+				for(j=(0x859 - 0x80C);j<sizeof(fastload9600)/sizeof(char);j++)
+					ram[0x9000 - (0x859 - 0x80C) + j] = fastload9600[j];
+				ram[0x00] = (0x8FFF - cmp_len) & 0xFF;
+				ram[0x01] = (0x8FFF - cmp_len) >> 8;
+				ram[0x02] = 0x00;
+				ram[0x03] = 0x90;
+				ram[0x04] = 0xFF; // chksum initial value
+				ram[0x908A] = 0x00; // BRK @ LDA $04 [chksum]
+
+				reset6502();
+				exec6502(0x9065);
+
+				if(ram[0x04] != 0)
+					fprintf(stderr,"WARNING: simulated 9600 checksum failed: %02X\n",ram[0x04]);
+
+				inflate_times[i] += clockticks6502/1023000.0;
+			}
+
+			
 
 			//zero page src
 			ram[0x0] = (0xBA00 - cmp_len) & 0xFF;
