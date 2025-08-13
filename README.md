@@ -1,3 +1,5 @@
+# I'm done with github. Archived.
+
 ## Introduction
 
 `c2t` is a command line tool that can convert binary code/data and/or Apple-1/II Monitor text, as well as 140K disk images, into audio files suitable for use with the Apple-1 and II (II, II+, //e) cassette interface.
